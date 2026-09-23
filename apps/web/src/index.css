@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+  --color-pitch-950: #0a0e13;
+  --color-pitch-900: #0f151c;
+  --color-pitch-850: #131b24;
+  --color-pitch-800: #18222d;
+  --color-pitch-700: #233142;
+  --color-ink: #e6edf3;
+  --color-ink-muted: #8b9aab;
+  --color-ink-faint: #5b6b7c;
+  --color-live: #34d399;
+  --color-flash: #fbbf24;
+  --color-card-yellow: #facc15;
+  --color-card-red: #ef4444;
+  --color-league-pl: #a78bfa;
+  --color-league-pd: #fb923c;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-pitch-950 text-ink font-sans antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+
+.animate-live-pulse {
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-live-pulse {
+    animation: none;
+  }
+}

@@ -1,0 +1,11 @@
+# Optional: local MongoDB for development. The server also runs without Mongo
+# (in-memory cache only) when MONGO_URI is not set.
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:

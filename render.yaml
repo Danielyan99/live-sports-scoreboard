@@ -1,0 +1,22 @@
+# Render Blueprint for the backend (Socket.io needs a long-lived Node process).
+services:
+  - type: web
+    name: pitchside-live-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build:shared && npm run build -w apps/server
+    startCommand: npm run start -w apps/server
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: FOOTBALL_DATA_TOKEN
+        sync: false
+      - key: MONGO_URI
+        sync: false
+      - key: CORS_ORIGIN
+        sync: false
+      - key: POLL_INTERVAL_MS
+        value: "15000"
+      - key: SIM_TICK_MS
+        value: "3000"
