@@ -10,6 +10,8 @@ export interface AppConfig {
   /** How often to refresh the latest matchday's results. They only change after a match ends. */
   resultsRefreshMs: number;
   forceDemo: boolean;
+  /** Optional DNS resolvers, for networks whose router can't resolve mongodb+srv:// records. */
+  dnsServers: string[];
 }
 
 function int(value: string | undefined, fallback: number, min: number): number {
@@ -34,6 +36,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     simTickMs: int(env.SIM_TICK_MS, 3_000, 250),
     resultsRefreshMs: int(env.RESULTS_REFRESH_MS, 30 * 60_000, 5 * 60_000),
     forceDemo: env.FORCE_DEMO === 'true',
+    dnsServers: (env.DNS_SERVERS ?? '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean),
   };
 }
 
