@@ -2,7 +2,9 @@
 
 **Real-time football scoreboard for the Premier League and La Liga.** Scores, timelines and stats update in the browser the moment they change: no refresh and no client-side polling.
 
-> **Live demo:** _add your Vercel URL here_ · **API health:** _add your Render URL_/health
+> **Live demo:** https://live-sports-scoreboard-seven.vercel.app · **API health:** https://pitchside-live-api.onrender.com/health
+>
+> The API runs on Render's free tier and sleeps when idle, so the first visit can take ~30 s to wake it.
 
 The backend watches a sports data API, **diffs every response against cached state**, and pushes **only what changed** to connected clients over WebSockets (Socket.io). When no real match is in play, a built-in simulator feeds the _same_ pipeline, so the demo is always live. The UI labels it "Demo feed".
 
