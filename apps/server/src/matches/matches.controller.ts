@@ -1,4 +1,6 @@
-import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Optional, Param, Query } from '@nestjs/common';
+import { InjectConnection } from '@nestjs/mongoose';
+import { type Connection, ConnectionStates } from 'mongoose';
 import { isLeagueCode, LEAGUE_CODES, type LeagueResults, type Match } from '@scoreboard/shared';
 import { LiveGateway } from '../realtime/live.gateway';
 import { ResultsService } from '../results/results.service';
@@ -14,6 +16,8 @@ export class MatchesController {
     private readonly store: MatchStore,
     private readonly gateway: LiveGateway,
     private readonly results: ResultsService,
+    // Only exists when MONGO_URI is set; the scoreboard also runs from memory without it.
+    @Optional() @InjectConnection() private readonly connection?: Connection,
   ) {}
 
   @Get('health')
@@ -24,6 +28,8 @@ export class MatchesController {
       matches: this.store.getAll().length,
       clients: this.gateway.connectedClients,
       uptimeSeconds: Math.round(process.uptime()),
+      // The app keeps working without the database, so show its state here: "off" means MONGO_URI is not set.
+      db: this.connection ? (ConnectionStates[this.connection.readyState] ?? 'unknown') : 'off',
     };
   }
 
